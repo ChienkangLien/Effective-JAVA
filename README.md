@@ -1,4 +1,3 @@
-# Effective JAVA
 ## 1.考慮使用靜態工廠方法替代構造方法
 優點
 1. 具有描述性名稱：給定一個有意義的名稱，根據方法名稱知道其用途。
@@ -641,8 +640,13 @@ class Engine {
 }
 
 class Car {
-    private final Engine engine = new Engine();
+    private final Engine engine;
+    // 更多零組件...
 
+    Car(Engine engine){
+        this.engine = engine;
+    }
+    
     void start() {
         engine.start();
         System.out.println("Car started.");
@@ -651,11 +655,14 @@ class Car {
 
 public class Main {
     public static void main(String[] args) {
-        Car car = new Car();
+        Car car = new Car(new Engine());
         car.start();
     }
 }
 ```
+一台車子可能會有多個零組件，一昧使用繼承的話會導致子類越來越肥大不易維護。考慮使用組合，可以動態式的添加所需的屬性。
+* 繼承：引擎室繼承了汽缸、火星塞、空氣濾清器...，車子繼承了引擎室但是它不想要有空氣濾清器；汽缸又繼承了各式各樣的活塞。
+* 組合：宣告可能會使用到的屬性，動態添加。
 ## 19.如使用繼承設計，應當文檔說明，否則不該使用
 應該清晰地文檔化你的類的行為，包括父類和子類之間的關系、如何覆蓋父類方法以及如何擴展父類功能。這可以通過注釋、文檔或其他文檔化方式來完成，以便其他開發者能夠理解你的設計意圖。
 
